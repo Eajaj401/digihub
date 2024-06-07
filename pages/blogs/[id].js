@@ -8,12 +8,28 @@ import React from "react";
 const SinglePost = () => {
   const router = useRouter();
   const { id } = router.query;
+
+  // Use optional chaining and fallback for SEO improvements
   const post = blogdata.find((post) => post.id === parseInt(id));
+
+  if (!post) {
+    return (
+      <section className="post-details bg-top">
+        <div className="container">
+          <div className="heading-title">
+            <TitleSm title="Post Not Found" />
+            <Title title="The post you are looking for does not exist." className="title-bg" />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
       <Head>
-        <title>{post.title}</title>
+        <title>{post.title} | My Blog</title>
+        <meta name="description" content={post.content[0]} />
       </Head>
       <section className="post-details bg-top">
         <div className="container">
